@@ -11,4 +11,10 @@ class Sede extends Model
 
     protected $fillable = ['nombre_sede', 'numero_sede'];
     public $timestamps = false;
+
+    public function usuariosSedes()
+{
+    return $this->hasMany(UsuarioSede::class, 'sede_id');
+}
+
 }

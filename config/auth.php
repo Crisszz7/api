@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'usuario_sede' => [
+            'driver' => 'session',
+            'provider' => 'usuarios_sedes',
+        ],
     ],
 
     /*
@@ -69,6 +73,11 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+
+        'usuarios_sedes' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\UsuarioSede::class,
+        ],
     ],
 
     /*

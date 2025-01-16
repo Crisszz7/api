@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AmbienteController;
+use App\Http\Controllers\Auth\LoginSedeController;
 use App\Http\Controllers\FichaController;
 use App\Http\Controllers\HerramientaController;
 use App\Http\Controllers\HistorialController;
@@ -66,5 +67,6 @@ Route::delete('/prestamo/{identificacion}', [PrestamoController::class, 'destroy
 Route::resource('/historial', HistorialController::class)->except('show');
 Route::get('/historial/{identificacion}', [HistorialController::class, 'show']);
 
-
+Route::post('login-sede', [LoginSedeController::class, 'login']);
+Route::post('register-sede', [LoginSedeController::class, 'register']); 
 
