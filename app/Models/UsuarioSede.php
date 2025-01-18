@@ -13,16 +13,16 @@ class UsuarioSede extends Authenticatable
 
     protected $fillable = [
         'username',
-        'contrasena', // Cambia "password" por "contrasena"
+        'contrasena',
         'sede_id',
     ];
 
     protected $hidden = [
-        'contrasena', // Asegúrate de ocultar "contrasena"
+        'contrasena', 
         'remember_token',
     ];
 
-    // Relación con la tabla sedes
+
     public function sede()
     {
         return $this->belongsTo(Sede::class, 'sede_id');

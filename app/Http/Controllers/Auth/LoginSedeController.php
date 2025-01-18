@@ -31,7 +31,7 @@ class LoginSedeController extends Controller
             ], 401);
         }
 
-        $user->contrasena = trim($user->contrasena);  // Eliminar espacios
+        $user->contrasena = trim($user->contrasena);  
 
     
         if (Hash::check($request->contrasena, $user->contrasena)) {
@@ -53,14 +53,14 @@ class LoginSedeController extends Controller
 
     public function register(Request $request)
     {
-        // Validar los datos de entrada
+
         $request->validate([
-            'username' => 'required|string|unique:usuario_sedes,username', // Asegúrate de que el nombre de usuario sea único
-            'contrasena' => 'required|string', // Contraseña mínima de 6 caracteres
-            'numero_sede' => 'required|exists:sedes,numero_sede', // Validar que el numero_sede exista en la tabla Sedes
+            'username' => 'required|string|unique:usuario_sedes,username', 
+            'contrasena' => 'required|string',
+            'numero_sede' => 'required|exists:sedes,numero_sede', 
         ]);
 
-        // Buscar la sede con el numero_sede proporcionado
+  
         $sede = Sede::where('numero_sede', $request->numero_sede)->first();
 
         if (!$sede) {
@@ -71,8 +71,8 @@ class LoginSedeController extends Controller
 
         $user = UsuarioSede::create([
             'username' => $request->username,
-            'contrasena' => Hash::make($request->contrasena), // Cifrar la contraseña
-            'sede_id' => $sede->id, // Relacionar con la sede
+            'contrasena' => Hash::make($request->contrasena), 
+            'sede_id' => $sede->id, 
         ]);
 
         return response()->json([
@@ -80,7 +80,7 @@ class LoginSedeController extends Controller
             'user' => [
                 'id' => $user->id,
                 'username' => $user->username,
-                'sede' => $user->sede->nombre_sede, // Incluyendo la sede
+                'sede' => $user->sede->nombre_sede, 
             ],
         ], 201);
     }
