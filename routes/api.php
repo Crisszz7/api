@@ -22,7 +22,9 @@ Route::get('/usuario/{identificacion}', [UsuarioController::class, 'show']);
 Route::put('/usuario/{identificacion}', [UsuarioController::class, 'update']);
 Route::delete('/usuario/{identificacion}', [UsuarioController::class, 'destroy']);
 //Route de Roles
-Route::resource('/rol', RolController::class);
+Route::resource('/rol', RolController::class)->except(['update', 'destroy']);
+Route::put('/rol/{tipo}', [RolController::class, 'update']);
+Route::delete('/rol/{tipo}', [RolController::class, 'destroy']);
 //Route de Fichas
 Route::resource('/ficha', FichaController::class)->except('show', 'update', 'destroy');
 Route::get('/ficha/{numero_ficha}', [FichaController::class, 'show']);
