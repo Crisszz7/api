@@ -17,4 +17,5 @@ class Sede extends Model
     return $this->hasMany(UsuarioSede::class, 'sede_id');
 }
 
+
 }

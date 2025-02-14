@@ -4,22 +4,16 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Sede;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UsuarioSede;
+use Illuminate\Contracts\Queue\Job;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 
 class LoginSedeController extends Controller
 {
-    public function showLoginForm()
-    {
-        return response()->json([
-            'message' => 'Accede a esta ruta enviando las credenciales por POST.',
-            'required_fields' => ['username', 'contrasena']
-        ], 200);
-    }
-
-
 
     public function login(Request $request)
     {
@@ -83,6 +77,52 @@ class LoginSedeController extends Controller
                 'sede' => $user->sede->nombre_sede, 
             ],
         ], 201);
+    }
+
+    public function update(Request $request, $numero_sede):JsonResponse{
+
+        $sede = Sede::where('numero_sede', $numero_sede)->first();
+
+        if (!$sede) {
+            return response()->json([
+                'message' => 'Sede no encontrada',
+                'data' => $sede,
+            ], 400);
+        }
+
+        $sedeUsuarioActualizar = UsuarioSede::where('sede_id', $sede->id)->first();
+
+        $sedeUsuarioActualizar->username = $request->input('username', $sedeUsuarioActualizar->username);
+        $sedeUsuarioActualizar->contrasena = Hash::make($request->input('contrasena', $sedeUsuarioActualizar->contrasena));
+        $sedeUsuarioActualizar->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Usuario de sede Actualizado',
+            'data' => $sedeUsuarioActualizar,
+        ], 200);
+
+    }
+
+    public function destroy($numero_sede):JsonResponse
+    {
+
+        $sede = Sede::where('numero_sede', $numero_sede)->first();
+
+        if (!$sede) {
+            return response()->json([
+                'message' => 'Sede no encontrada',
+                'data' => $sede,
+            ], 400);
+        }
+
+        $sedeUsuarioEliminar = UsuarioSede::where('sede_id', $sede->id)->first();
+
+        $sedeUsuarioEliminar->delete();
+
+        return response()->json([
+            'message' => 'Usuario de Sede eliminado exitosamente.',
+        ], 200);
     }
     
     public function logout(Request $request)

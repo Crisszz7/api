@@ -54,6 +54,8 @@ Route::delete('/prestamo/{identificacion}', [PrestamoController::class, 'destroy
 Route::resource('/historial', HistorialController::class)->except('show');
 Route::get('/historial/{identificacion}', [HistorialController::class, 'show']);
 
-Route::post('login-sede', [LoginSedeController::class, 'login']);
-Route::post('register-sede', [LoginSedeController::class, 'register']); 
+Route::post('/login-sede', [LoginSedeController::class, 'login']);
+Route::post('/register-sede', [LoginSedeController::class, 'register']);
+Route::put('/register-sede/{numero_sede}', [LoginSedeController::class, 'update']); 
+Route::delete('/register-sede/{numero_sede}', [LoginSedeController::class, 'destroy']); 
 
