@@ -13,8 +13,10 @@ class UsuarioSede extends Authenticatable
 
     protected $fillable = [
         'username',
+        'correo',
         'contrasena',
         'sede_id',
+
     ];
 
     protected $hidden = [

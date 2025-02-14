@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('username')->unique();
             $table->string('contrasena');
+            $table->string('correo')->nullable();
             $table->unsignedBigInteger('sede_id');
             $table->timestamps();
 

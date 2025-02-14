@@ -10,6 +10,7 @@ use App\Http\Controllers\SedeController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\PrestamoController;
 use Illuminate\Support\Facades\Route;
+use PHPUnit\Framework\Constraint\LogicalOr;
 
 //Ruta para proteger paginas cuando el usuario no este logeado, no necesario
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -56,6 +57,7 @@ Route::get('/historial/{identificacion}', [HistorialController::class, 'show']);
 
 Route::post('/login-sede', [LoginSedeController::class, 'login']);
 Route::post('/register-sede', [LoginSedeController::class, 'register']);
+Route::get('/register-sede/{numero_sede}', [LoginSedeController::class, 'show']);
 Route::put('/register-sede/{numero_sede}', [LoginSedeController::class, 'update']); 
 Route::delete('/register-sede/{numero_sede}', [LoginSedeController::class, 'destroy']); 
 

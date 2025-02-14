@@ -8,7 +8,6 @@ use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UsuarioSede;
-use Illuminate\Contracts\Queue\Job;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 
@@ -66,6 +65,7 @@ class LoginSedeController extends Controller
         $user = UsuarioSede::create([
             'username' => $request->username,
             'contrasena' => Hash::make($request->contrasena), 
+            'correo' => $request->correo,
             'sede_id' => $sede->id, 
         ]);
 
@@ -74,10 +74,27 @@ class LoginSedeController extends Controller
             'user' => [
                 'id' => $user->id,
                 'username' => $user->username,
+                'correo' => $request->correo,
                 'sede' => $user->sede->nombre_sede, 
             ],
         ], 201);
     }
+
+    public function show($numero_sede):JsonResponse
+    {
+        $sede = Sede::where('numero_sede', $numero_sede)->first();
+
+        if (!$sede) {
+            return response()->json([
+                'Success' => false,
+                'message' => 'Sede No encontrada',
+                ], 404);
+            }
+
+        $sedeUsuarioActualizar = UsuarioSede::with(['sede'])->where('sede_id', $sede->id)->first();
+
+            return response()->json($sedeUsuarioActualizar, 200);
+        }
 
     public function update(Request $request, $numero_sede):JsonResponse{
 
@@ -93,6 +110,7 @@ class LoginSedeController extends Controller
         $sedeUsuarioActualizar = UsuarioSede::where('sede_id', $sede->id)->first();
 
         $sedeUsuarioActualizar->username = $request->input('username', $sedeUsuarioActualizar->username);
+        $sedeUsuarioActualizar->correo = $request->input('correo', $sedeUsuarioActualizar->correo);
         $sedeUsuarioActualizar->contrasena = Hash::make($request->input('contrasena', $sedeUsuarioActualizar->contrasena));
         $sedeUsuarioActualizar->save();
 
