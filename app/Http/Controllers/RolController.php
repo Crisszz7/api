@@ -34,9 +34,9 @@ class RolController extends Controller
             ], 200);
         }
 
-        public function update(Request $request, $tipo):JsonResponse
+        public function update(Request $request, $id):JsonResponse
         {
-            $rol = Rol::where('tipo', $tipo)->first();
+            $rol = Rol::where('id', $id)->first();
     
             if (!$rol) {
                 return response()->json([
@@ -44,8 +44,8 @@ class RolController extends Controller
                     'message' => 'Rol NO encontrado'
                 ], 404);
             }
-    
-            $rol->tipo = $request->input('tipo', $tipo->tipo);
+
+            $rol->tipo = $request->input('tipo', $rol->tipo); 
             $rol->save();
     
             return response()->json([
@@ -55,9 +55,9 @@ class RolController extends Controller
         }
 
 
-        public function destroy($tipo):JsonResponse
+        public function destroy($id):JsonResponse
         {
-            $rol = Rol::where('tipo', $tipo)->first();
+            $rol = Rol::where('id', $id)->first();
     
             if (!$rol) {
                 return response()->json([

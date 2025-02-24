@@ -104,9 +104,9 @@ class PrestamoController extends Controller
         return response()->json($prestamo);
     }
 
-    public function update(Request $request, $identificacion):JsonResponse
+    public function update(Request $request, $id):JsonResponse
     {
-        $prestamo = Prestamo::where('identificacion', $identificacion)->first();
+        $prestamo = Prestamo::where('id', $id)->first();
 
         if (!$prestamo) {
             return response()->json(['message' => 'Prestamo no encontrado'], 404);
@@ -143,10 +143,10 @@ class PrestamoController extends Controller
 
     }
 
-    public function destroy($identificacion)
+    public function destroy($id)
 {
 
-    $usuario = Usuario::where('identificacion', $identificacion)->first();
+    $usuario = Usuario::where('id', $id)->first();
 
     if (!$usuario) {
         return response()->json(['success' => false, 'message' => 'Usuario no encontrado'], 404);

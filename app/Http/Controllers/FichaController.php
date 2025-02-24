@@ -54,9 +54,9 @@ class FichaController extends Controller
 
     }
 
-    public function update(FichaRequest $request, $numero_ficha):JsonResponse
+    public function update(FichaRequest $request, $id):JsonResponse
     {
-        $ficha = Ficha::where('numero_ficha', $numero_ficha)->first();
+        $ficha = Ficha::where('$id', $id)->first();
 
         if (!$ficha) {
             return response()->json([
@@ -76,9 +76,9 @@ class FichaController extends Controller
         ], 200);
     }
 
-    public function destroy($numero_ficha):JsonResponse
+    public function destroy($id):JsonResponse
     {
-        $ficha = Ficha::where('numero_ficha', $numero_ficha)->first();
+        $ficha = Ficha::where('id', $id)->first();
 
         if (!$ficha) {
             return response()->json([

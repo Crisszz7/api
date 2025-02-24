@@ -40,9 +40,9 @@ class SedeController extends Controller
             return response()->json($sede, 200);
         }
 
-    public function update(Request $request, string $nombre_sede):JsonResponse
+    public function update(Request $request, $id):JsonResponse
     {
-        $sede = Sede::where('nombre_sede', $nombre_sede)->first();
+        $sede = Sede::where('id', $id)->first();
 
         if (!$sede) {
             return response()->json([
@@ -61,9 +61,9 @@ class SedeController extends Controller
         ], 200);
     }
 
-    public function destroy(string $nombre_sede):JsonResponse
+    public function destroy($id):JsonResponse
     {
-        $sede = Sede::where('nombre_sede', $nombre_sede)->first();
+        $sede = Sede::where('id', $id)->first();
 
         if (!$sede) {
             return response()->json([

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class UsuarioSede extends Authenticatable
+class UsuarioSede extends Authenticatable 
 {
     use HasFactory;
 
@@ -22,8 +22,12 @@ class UsuarioSede extends Authenticatable
     protected $hidden = [
         'contrasena', 
         'remember_token',
-    ];
+    ];    
 
+    public function getEmailForPasswordReset()
+    {
+        return $this->correo;
+    }
 
     public function sede()
     {

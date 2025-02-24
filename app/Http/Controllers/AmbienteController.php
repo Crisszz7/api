@@ -26,7 +26,7 @@ class AmbienteController extends Controller
         ], 201);
     }
 
-    public function show(string $codigo):JsonResponse
+    public function show($codigo):JsonResponse
     {
         $ambiente = Ambiente::where('codigo', $codigo)->first();
 
@@ -37,9 +37,9 @@ class AmbienteController extends Controller
         return response()->json($ambiente, 200);
     }
 
-    public function update(AmbienteRequest $request, string $codigo):JsonResponse
+    public function update(AmbienteRequest $request, $id):JsonResponse
     {
-        $ambiente = Ambiente::where('codigo', $codigo)->first();
+        $ambiente = Ambiente::where('id', $id)->first();
 
         if (!$ambiente) {
             return response()->json([
@@ -58,9 +58,9 @@ class AmbienteController extends Controller
         ]);
     }
 
-    public function destroy(string $codigo):JsonResponse
+    public function destroy( $id):JsonResponse
     {
-        $ambiente = Ambiente::where('codigo', $codigo)->first();
+        $ambiente = Ambiente::where('id', $id)->first();
 
         if (!$ambiente) {
             return response()->json([

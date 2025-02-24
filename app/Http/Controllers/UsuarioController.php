@@ -42,9 +42,9 @@ class UsuarioController extends Controller
         return response()->json($usuario, 200);
     }
 
-    public function update(Request $request, $identificacion):JsonResponse
+    public function update(Request $request, $id):JsonResponse
     {
-        $usuario = Usuario::where('identificacion', $identificacion)->first();
+        $usuario = Usuario::where('id', $id)->first();
 
         if (!$usuario) {
             return response()->json([
@@ -65,9 +65,9 @@ class UsuarioController extends Controller
         ]);
     }
 
-    public function destroy($identificacion):JsonResponse
+    public function destroy($id):JsonResponse
     {
-        $usuario = Usuario::where('identificacion', $identificacion)->first();
+        $usuario = Usuario::where('id', $id)->first();
 
         if (!$usuario) {
             return response()->json([

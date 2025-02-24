@@ -5,55 +5,50 @@ use App\Http\Controllers\Auth\LoginSedeController;
 use App\Http\Controllers\FichaController;
 use App\Http\Controllers\HerramientaController;
 use App\Http\Controllers\HistorialController;
+use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\SedeController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\PrestamoController;
 use Illuminate\Support\Facades\Route;
-use PHPUnit\Framework\Constraint\LogicalOr;
-
-//Ruta para proteger paginas cuando el usuario no este logeado, no necesario
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 
 // Route definition for resourceful routes for UsuarioController
 Route::resource('/usuario', UsuarioController::class)->except(['show', 'update', 'destroy']);
 Route::get('/usuario/{identificacion}', [UsuarioController::class, 'show']);
-Route::put('/usuario/{identificacion}', [UsuarioController::class, 'update']);
-Route::delete('/usuario/{identificacion}', [UsuarioController::class, 'destroy']);
+Route::put('/usuario/{id}', [UsuarioController::class, 'update']);
+Route::delete('/usuario/{id}', [UsuarioController::class, 'destroy']);
 //Route de Roles
 Route::resource('/rol', RolController::class)->except(['update', 'destroy']);
-Route::put('/rol/{tipo}', [RolController::class, 'update']);
-Route::delete('/rol/{tipo}', [RolController::class, 'destroy']);
+Route::put('/rol/{id}', [RolController::class, 'update']);
+Route::delete('/rol/{id}', [RolController::class, 'destroy']);
 //Route de Fichas
 Route::resource('/ficha', FichaController::class)->except('show', 'update', 'destroy');
 Route::get('/ficha/{numero_ficha}', [FichaController::class, 'show']);
-Route::put('/ficha/{numero_ficha}', [FichaController::class, 'update']);
-Route::delete('/ficha/{numero_ficha}', [FichaController::class, 'destroy']);
+Route::put('/ficha/{id}', [FichaController::class, 'update']);
+Route::delete('/ficha/{id}', [FichaController::class, 'destroy']);
 //Route de Herramientas
 Route::resource('/herramienta', HerramientaController::class)->except('show', 'update', 'destroy');
 Route::get('/herramienta/{codigo}', [HerramientaController::class, 'show']);
-Route::put('/herramienta/{codigo}', [HerramientaController::class, 'update']);
-Route::delete('/herramienta/{codigo}', [HerramientaController::class, 'destroy']);
+Route::put('/herramienta/{id}', [HerramientaController::class, 'update']);
+Route::delete('/herramienta/{id}', [HerramientaController::class, 'destroy']);
 
 Route::resource('/sede', SedeController::class)->except('show', 'update', 'destroy');
 Route::get('/sede/{nombre_sede}', [SedeController::class, 'show']);
-Route::put('/sede/{nombre_sede}', [SedeController::class, 'update']);
-Route::delete('/sede/{nombre_sede}', [SedeController::class, 'destroy']);
+Route::put('/sede/{id}', [SedeController::class, 'update']);
+Route::delete('/sede/{id}', [SedeController::class, 'destroy']);
 
 Route::resource('/ambiente', AmbienteController::class)->except('show', 'update', 'destroy');
 Route::get('/ambiente/{codigo}', [AmbienteController::class, 'show']);
-Route::put('/ambiente/{codigo}', [AmbienteController::class, 'update']);
-Route::delete('/ambiente/{codigo}', [AmbienteController::class, 'destroy']);
+Route::put('/ambiente/{id}', [AmbienteController::class, 'update']);
+Route::delete('/ambiente/{id}', [AmbienteController::class, 'destroy']);
 
 Route::resource('/prestamo', PrestamoController::class)->except('show', 'update', 'destroy');
 Route::get('/prestamo/{identificacion}', [PrestamoController::class, 'show']);
-Route::put('/prestamo/{identificacion}', [PrestamoController::class, 'update']);
-Route::delete('/prestamo/{identificacion}', [PrestamoController::class, 'destroy']);
+Route::put('/prestamo/{id}', [PrestamoController::class, 'update']);
+Route::delete('/prestamo/{id}', [PrestamoController::class, 'destroy']);
 
 Route::resource('/historial', HistorialController::class)->except('show');
-Route::get('/historial/{identificacion}', [HistorialController::class, 'show']);
+Route::get('/historial/{id}', [HistorialController::class, 'show']);
 
 Route::post('/login-sede', [LoginSedeController::class, 'login']);
 Route::post('/register-sede', [LoginSedeController::class, 'register']);
@@ -61,3 +56,5 @@ Route::get('/register-sede/{numero_sede}', [LoginSedeController::class, 'show'])
 Route::put('/register-sede/{numero_sede}', [LoginSedeController::class, 'update']); 
 Route::delete('/register-sede/{numero_sede}', [LoginSedeController::class, 'destroy']); 
 
+Route::post('/resetPasswordLink', [PasswordResetController::class, 'store']);
+Route::post('/reset-password', [PasswordResetController::class, 'resetPassword']);

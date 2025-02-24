@@ -37,5 +37,18 @@ class HistorialController extends Controller
         ], 200);
     }
 
+    // public function destroy ($id):JsonResponse{
+
+    //     // $historial = Historial::where('id', $id)->first();
+
+    //     // if (!$historial) {
+    //     //     return response()->json([
+    //     //         'Success' => false,
+    //     //         'message' => 'Ocurrio un error'
+    //     //     ], 404);
+    //     // }
+
+    //     // $historial->delete();
+    // }
 
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\HerramientaRequest;
 use App\Models\Herramienta;
+use Brick\Math\BigInteger;
 use Illuminate\Http\JsonResponse;
 
 class HerramientaController extends Controller
@@ -35,9 +36,9 @@ class HerramientaController extends Controller
         return response()->json($herramienta, 200);
     }
 
-    public function update(HerramientaRequest $request,string $codigo):JsonResponse
+    public function update(HerramientaRequest $request, $id):JsonResponse
     {
-        $herramienta = Herramienta::where('codigo', $codigo)->first();
+        $herramienta = Herramienta::where('id', $id)->first();
 
         if (!$herramienta) {
             return response()->json([
@@ -60,9 +61,9 @@ class HerramientaController extends Controller
 
     }
 
-    public function destroy(string $codigo):JsonResponse
+    public function destroy($id):JsonResponse
     {
-        $herramienta = Herramienta::where('codigo', $codigo)->first();
+        $herramienta = Herramienta::where('id', $id)->first();
 
         if (!$herramienta) {
             return response()->json([
