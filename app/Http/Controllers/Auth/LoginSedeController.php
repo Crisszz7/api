@@ -15,32 +15,35 @@ class LoginSedeController extends Controller
 
     public function login(Request $request)
     {
-        $user = UsuarioSede::where('username', $request->username)->first();
-        
-        if (!$user) {
-            return response()->json([
-                'message' => 'Usuario no encontrado.',
-            ], 401);
-        }
-
-        $user->contrasena = trim($user->contrasena);  
-
+        // Validar que los datos vengan en la petición
+        $request->validate([
+            'username' => 'required|string',
+            'contrasena' => 'required|string',
+        ]);
     
-        if (Hash::check($request->contrasena, $user->contrasena)) {
-            return response()->json([
-                'message' => 'Inicio de sesión exitoso.',
-                'user' => [
-                    'id' => $user->id,
-                    'username' => $user->username,
-                    'sede' => $user->sede->nombre_sede,
-                ],
-            ], 200);
+        // Buscar usuario por el username
+        $user = UsuarioSede::where('username', $request->username)->first();
+    
+        // Si el usuario no existe o la contraseña no es correcta
+        if (!$user || !Hash::check($request->contrasena, $user->contrasena)) {
+            return response()->json(['message' => 'Credenciales incorrectas.'], 401);
         }
+    
+        // Generar el token
+        $token = $user->createToken('auth_token')->plainTextToken;
     
         return response()->json([
-            'message' => 'Credenciales incorrectas.',
-        ], 401);
+            'message' => 'Inicio de sesión exitoso.',
+            'token' => $token,
+            'user' => [
+                'id' => $user->id,
+                'username' => $user->username,
+                'sede' => $user->sede->nombre_sede ?? null,
+            ],
+        ], 200);
     }
+    
+
     
 
     public function register(Request $request)
@@ -141,14 +144,17 @@ class LoginSedeController extends Controller
             'message' => 'Usuario de Sede eliminado exitosamente.',
         ], 200);
     }
-    
+
     public function logout(Request $request)
     {
-        Auth::guard('usuario_sede')->logout();
-
-        return response()->json([
-            'message' => 'Sesión cerrada correctamente.',
-        ], 200);
+        $user = $request->user();
+    
+        if ($user) {
+            $user->tokens()->delete(); 
+        }
+    
+        return response()->json(['message' => 'Sesión cerrada correctamente'], 200);
     }
+
 }
 

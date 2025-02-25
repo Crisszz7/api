@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Auth\AuthenticationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -15,6 +16,10 @@ class Handler extends ExceptionHandler
     protected $levels = [
         //
     ];
+
+    protected function unauthenticated($request, AuthenticationException $exception){
+        return response()->json(['error' => 'Debes Autenticarte primero.'], 401);
+    }
 
     /**
      * A list of the exception types that are not reported.

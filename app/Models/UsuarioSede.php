@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+
 
 class UsuarioSede extends Authenticatable 
 {
-    use HasFactory;
+    use HasFactory, HasApiTokens, Notifiable; 
 
     protected $table = 'usuario_sedes';
 
