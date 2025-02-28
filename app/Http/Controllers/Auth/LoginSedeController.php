@@ -21,15 +21,12 @@ class LoginSedeController extends Controller
             'contrasena' => 'required|string',
         ]);
     
-        // Buscar usuario por el username
         $user = UsuarioSede::where('username', $request->username)->first();
     
-        // Si el usuario no existe o la contraseña no es correcta
         if (!$user || !Hash::check($request->contrasena, $user->contrasena)) {
             return response()->json(['message' => 'Credenciales incorrectas.'], 401);
         }
     
-        // Generar el token
         $token = $user->createToken('auth_token')->plainTextToken;
     
         return response()->json([

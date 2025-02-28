@@ -15,7 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('nombre_ficha');
             $table->unsignedBigInteger('numero_ficha');
+            $table->unsignedBigInteger('usuariosede_id');
             $table->timestamps();
+
+            $table->foreign('usuariosede_id')->references('id')->on('usuario_sedes')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

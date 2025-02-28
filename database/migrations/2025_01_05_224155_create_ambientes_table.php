@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('nombre_ambiente');
             $table->string('codigo')->unique();
             $table->boolean('disponible')->default(true);
+            $table->unsignedBigInteger('usuariosede_id');
+
+            $table->foreign('usuariosede_id')->references('id')->on('usuario_sedes')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AmbienteRequest;
 use App\Models\Ambiente;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 
@@ -15,7 +15,7 @@ class AmbienteController extends Controller
         return response()->json(Ambiente::all());
     }
 
-    public function store(AmbienteRequest $request):JsonResponse
+    public function store(Request $request):JsonResponse
     {
         $ambiente = Ambiente::create($request->all());
 
@@ -37,7 +37,7 @@ class AmbienteController extends Controller
         return response()->json($ambiente, 200);
     }
 
-    public function update(AmbienteRequest $request, $id):JsonResponse
+    public function update(Request $request, $id):JsonResponse
     {
         $ambiente = Ambiente::where('id', $id)->first();
 

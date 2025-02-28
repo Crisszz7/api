@@ -15,6 +15,7 @@ return new class extends Migration
             $table->bigInteger('identificacion');
             $table->unsignedBigInteger('herramienta_id')->nullable();
             $table->unsignedBigInteger('ambiente_id')->nullable();
+            $table->unsignedBigInteger('usuariosede_id');
             $table->string('codigo_herramienta')->nullable();
             $table->unsignedInteger('cantidad')->nullable();
             $table->string('codigo_ambiente')->nullable();
@@ -25,6 +26,7 @@ return new class extends Migration
             $table->foreign('usuario_id')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('herramienta_id')->references('id')->on('herramientas')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('ambiente_id')->references('id')->on('ambientes')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('usuariosede_id')->references('id')->on('usuario_sedes')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

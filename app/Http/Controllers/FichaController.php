@@ -6,17 +6,31 @@ use App\Http\Controllers\Controller;
 use App\Models\Ficha;
 use App\Models\Usuario;
 use Illuminate\Http\JsonResponse;
-use App\Http\Requests\FichaRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FichaController extends Controller
 {
     public function index():JsonResponse
     {
-        return response()->json(Ficha::all());
+        $usuario = Auth::user();
+    
+        if (!$usuario) {
+            return response()->json(['error' => 'Usuario no autenticado'], 401);
+        }
+    
+        $fichas = Ficha::where('usuariosede_id', $usuario->id)->get();
+       
+        return response()->json($fichas);
     }
 
-    public function store(FichaRequest $request):JsonResponse
+    public function store(Request $request):JsonResponse
     {
+
+        $usuario = Auth::user();
+
+        $usuariosede_id = $usuario->id;
+
         $validarExistencia = Ficha::where('numero_ficha', $request->numero_ficha)->exists();
 
         if ($validarExistencia) {
@@ -26,12 +40,14 @@ class FichaController extends Controller
             ], 404);
         }
 
-        $ficha = Ficha::create($request->all());
+        $fichaData = $request->all();
+        $fichaData['usuariosede_id'] = $usuariosede_id;
+    
+        $fichaData = Ficha::create($fichaData);
 
         return response()->json([
             'Success' => true,
-            'message' => 'Ficha creada exitosamente',
-            'data' => $ficha
+            'data' => $fichaData,
         ], 201);
     }
 
@@ -54,9 +70,9 @@ class FichaController extends Controller
 
     }
 
-    public function update(FichaRequest $request, $id):JsonResponse
+    public function update(Request $request, $id):JsonResponse
     {
-        $ficha = Ficha::where('$id', $id)->first();
+        $ficha = Ficha::where('id', $id)->first();
 
         if (!$ficha) {
             return response()->json([

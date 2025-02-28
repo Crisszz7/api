@@ -19,11 +19,13 @@ return new class extends Migration
         $table->BigInteger('identificacion')->unique();
         $table->string('celular')->nullable();
         $table->unsignedBigInteger('rol_id');
+        $table->unsignedBigInteger('usuariosede_id');
         $table->unsignedBigInteger('ficha_id')->nullable();
         $table->timestamps();
 
         $table->foreign('rol_id')->references('id')->on('rols')->onDelete('cascade')->onUpdate('cascade');
         $table->foreign('ficha_id')->references('id')->on('fichas')->onDelete('cascade')->onUpdate('cascade');
+        $table->foreign('usuariosede_id')->references('id')->on('usuario_sedes')->onUpdate('cascade')->onDelete('cascade');
     });
 }
 

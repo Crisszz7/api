@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('usuario_id');
             $table->unsignedBigInteger('prestamo_id')->unique();
+            $table->unsignedBigInteger('usuariosede_id');
             $table->enum('estado', ['activo', 'devuelto', 'mora']);
             $table->timestamps('');
 
             $table->foreign('usuario_id')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('usuariosede_id')->references('id')->on('usuario_sedes')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('prestamo_id')->references('id')->on('prestamos')->onUpdate('cascade');
         });
     }

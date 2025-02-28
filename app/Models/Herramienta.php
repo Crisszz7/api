@@ -11,13 +11,17 @@ class Herramienta extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre_herramienta', 'codigo', 'stock', 'ubicacion'];
-
-    public $timestamps = true;
+    protected $fillable = ['nombre_herramienta', 'codigo', 'stock', 'ubicacion', 'usuariosede_id'];
 
     
     public function prestamos():BelongsToMany
     {
         return $this->belongsToMany(Prestamo::class, 'herramienta_prestamo')->withPivot('cantidad');
     }
+
+    public function usuarioSede():BelongsTo{
+        return $this->belongsTo(UsuarioSede::class, 'usuariosede_id');
+    }
+
+    
 }
