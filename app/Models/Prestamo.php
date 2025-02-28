@@ -15,6 +15,11 @@ class Prestamo extends Model
     protected $fillable = ['usuario_id','identificacion' ,'herramienta_id','ambiente_id', 'codigo_herramienta', 'codigo_ambiente',
     'cantidad', 'estado_prestamo','observaciones', 'usuariosede_id'];
 
+    protected $casts = [
+        'codigo_herramienta' => 'array',
+        'cantidad' => 'array',
+    ];
+
     public $timestamps = true;
 
     public function usuario():BelongsTo{
