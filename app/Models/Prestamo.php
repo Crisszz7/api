@@ -32,4 +32,7 @@ class Prestamo extends Model
     public function historial():HasOne{
         return $this->hasOne(Historial::class);//un prestamo esta relacionado a un historial
     }
+    public function usuarioSede():BelongsTo{
+        return $this->belongsTo(UsuarioSede::class, 'usuariosede_id');
+    }
 }

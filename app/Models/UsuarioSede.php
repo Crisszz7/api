@@ -48,6 +48,15 @@ class UsuarioSede extends Authenticatable
     {
         return $this->hasMany(Ambiente::class, 'usuariosede_id');
     }
+
+    public function prestamos(): HasMany
+    {
+        return $this->hasMany(Prestamo::class, 'usuariosede_id');
+    }
+    public function historials(): HasMany
+    {
+        return $this->hasMany(Historial::class, 'usuariosede_id');
+    }
 }
 
 

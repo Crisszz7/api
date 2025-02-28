@@ -16,8 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('herramienta_id')->nullable();
             $table->unsignedBigInteger('ambiente_id')->nullable();
             $table->unsignedBigInteger('usuariosede_id');
-            $table->string('codigo_herramienta')->nullable();
-            $table->unsignedInteger('cantidad')->nullable();
+            $table->json('codigo_herramienta')->nullable();
+            $table->json('cantidad')->nullable();
             $table->string('codigo_ambiente')->nullable();
             $table->enum('estado_prestamo' ,['activo','devuelto','mora'])->default('activo');
             $table->text('observaciones')->nullable();
