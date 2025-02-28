@@ -10,13 +10,22 @@ use App\Models\Usuario;
 use App\Models\Historial;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PrestamoController extends Controller
 {
 
     public function index():JsonResponse
     {
-        return response()->json(Prestamo::with(['usuario', 'herramientas', 'ambiente'])->get());
+        $usuario = Auth::user();
+    
+        if (!$usuario) {
+            return response()->json(['error' => 'Usuario no autenticado'], 401);
+        }
+    
+        $ambientes = Prestamo::where('usuariosede_id', $usuario->id)->get();
+       
+        return response()->json($ambientes);
     }
 
     public function store(Request $request):JsonResponse
@@ -51,13 +60,18 @@ class PrestamoController extends Controller
             $ambiente->save();
         }
 
+        $usuario = Auth::user();
+
+        $usuariosede_id = $usuario->id;
+
         $prestamo = Prestamo::create([
             'usuario_id' => $usuario->id,
             'identificacion' => $request->identificacion,
             'ambiente_id' => $ambiente ? $ambiente->id : null,
             'codigo_ambiente' => $ambiente ? $ambiente->codigo : null,
             'estado_prestamo'=> 'activo',
-            'observaciones' => $request->observaciones
+            'observaciones' => $request->observaciones,
+            'usuariosede_id' => $usuariosede_id,
         ]);
 
         Historial::create([

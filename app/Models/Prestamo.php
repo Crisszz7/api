@@ -13,7 +13,7 @@ class Prestamo extends Model
     use HasFactory;
 
     protected $fillable = ['usuario_id','identificacion' ,'herramienta_id','ambiente_id', 'codigo_herramienta', 'codigo_ambiente',
-    'cantidad', 'estado_prestamo','observaciones'];
+    'cantidad', 'estado_prestamo','observaciones', 'usuariosede_id'];
 
     public $timestamps = true;
 

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('ambientes', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_ambiente');
-            $table->string('codigo')->unique();
+            $table->string('codigo');
             $table->boolean('disponible')->default(true);
             $table->unsignedBigInteger('usuariosede_id');
 

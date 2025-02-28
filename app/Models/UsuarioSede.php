@@ -42,7 +42,11 @@ class UsuarioSede extends Authenticatable
     public function fichas(): HasMany
     {
         return $this->hasMany(Ficha::class, 'usuariosede_id');
+    }
 
+    public function ambientes(): HasMany
+    {
+        return $this->hasMany(Ambiente::class, 'usuariosede_id');
     }
 }
 

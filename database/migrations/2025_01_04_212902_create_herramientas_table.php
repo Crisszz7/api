@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('herramientas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_herramienta');
-            $table->string('codigo')->unique();
+            $table->string('codigo');
             $table->unsignedInteger('stock')->default(0);
             $table->string('ubicacion');
             $table->unsignedBigInteger('usuariosede_id');

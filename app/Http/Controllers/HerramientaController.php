@@ -33,6 +33,15 @@ class HerramientaController extends Controller
 
         $usuariosede_id = $usuario->id;
 
+        $validarExistencia = Herramienta::where('codigo', $request->codigo)->where('usuariosede_id', $usuario->id)->exists();
+
+        if ($validarExistencia) {
+            return response()->json([
+                'data' => $validarExistencia,
+                'message' => 'La ficha ya existe'
+            ], 404);
+        }
+
         $herramientaData = $request->all();
         $herramientaData['usuariosede_id'] = $usuariosede_id;
     
@@ -58,6 +67,7 @@ class HerramientaController extends Controller
 
     public function update(Request $request, $id):JsonResponse
     {
+
         $herramienta = Herramienta::where('id', $id)->first();
 
         if (!$herramienta) {

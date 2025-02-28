@@ -15,7 +15,7 @@ class UsuarioController extends Controller
         return response()->json(Usuario::with(['ficha', 'rol'])->get());
     }
 
-    public function store(UsuarioRequest $request):JsonResponse
+    public function store(Request $request):JsonResponse
     {
         $validarIdentificacion = Usuario::where('identificacion', $request->identificacion)->exists();
 
