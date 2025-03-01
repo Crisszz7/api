@@ -11,7 +11,8 @@ use App\Http\Controllers\SedeController;
 use App\Http\Controllers\AmbienteController;
 use App\Http\Controllers\PrestamoController;
 use App\Http\Controllers\HistorialController;
-
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ResetPasswordController;
 
 
 Route::post('/login-sede', [LoginSedeController::class, 'login']);
@@ -21,8 +22,11 @@ Route::post('/register-sede', [LoginSedeController::class, 'register']);
 Route::get('/usuariosede',[LoginSedeController::class, 'index']);
 Route::get('/show-sede/{numero_sede}', [LoginSedeController::class, 'show']);
 
-Route::post('/resetPasswordLink', [PasswordResetController::class, 'store']);
-Route::post('/reset-password', [PasswordResetController::class, 'resetPassword']);
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::post('/reset-password', [ResetPasswordController::class, 'reset']);
+
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 Route::resource('/sede', SedeController::class)->except(['show', 'update', 'destroy']);
 Route::get('/sede/{nombre_sede}', [SedeController::class, 'show']);

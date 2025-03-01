@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'web',
-        'passwords' => 'users',
+        'passwords' => 'usuarios_sedes',
     ],
 
     /*
@@ -38,7 +38,7 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'usuarios_sedes',
         ],
         'usuario_sede' => [
             'driver' => 'session',
@@ -46,25 +46,9 @@ return [
         ],
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | User Providers
-    |--------------------------------------------------------------------------
-    |
-    | All authentication drivers have a user provider. This defines how the
-    | users are actually retrieved out of your database or other storage
-    | mechanisms used by this application to persist your user's data.
-    |
-    | If you have multiple user tables or models you may configure multiple
-    | sources which represent each model / table. These sources may then
-    | be assigned to any extra authentication guards you have defined.
-    |
-    | Supported: "database", "eloquent"
-    |
-    */
 
     'providers' => [
-        'users' => [
+        'usuarios_sedes' => [
             'driver' => 'eloquent',
             'model' => App\Models\UsuarioSede::class,
         ],
@@ -101,8 +85,8 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        'usuarios_sedes' => [
+            'provider' => 'usuarios_sedes',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
