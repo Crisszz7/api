@@ -23,7 +23,7 @@ class Prestamo extends Model
     public $timestamps = true;
 
     public function usuario():BelongsTo{
-        return $this->belongsTo(Usuario::class);//un prestamo pertene a un solo usuario
+        return $this->belongsTo(Usuario::class, 'usuario_id');//un prestamo pertene a un solo usuario
     }
 
     public function herramientas():BelongsToMany{

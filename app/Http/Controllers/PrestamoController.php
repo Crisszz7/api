@@ -23,7 +23,9 @@ class PrestamoController extends Controller
             return response()->json(['error' => 'Usuario no autenticado'], 401);
         }
     
-        $prestamos = Prestamo::where('usuariosede_id', $usuario->id)->get();
+        $prestamos = Prestamo::where('usuariosede_id', $usuario->id)
+        ->where('estado_prestamo', 'activo')
+        ->get();
        
         return response()->json($prestamos);
     }
@@ -82,8 +84,6 @@ class PrestamoController extends Controller
             'usuariosede_id' => $usuariosede_id
         ]);
 
-        
-
 
         Historial::create([
             'usuario_id' => $usuario->id,
@@ -138,11 +138,14 @@ class PrestamoController extends Controller
             return response()->json(['message' => 'Prestamo no encontrado'], 404);
         }
 
+
+        $prestamo->identificacion = $request->input('identificacion', $prestamo->identificacion);
+        $prestamo->cantidad = $request->input('cantidad', $prestamo->cantidad);
         $prestamo->codigo_ambiente = $request->input('codigo_ambiente', $prestamo->codigo_ambiente);
         $prestamo->observaciones = $request->input('observaciones', $prestamo->observaciones);
         $prestamo->save();
 
-        if ($request->has('codigo_herramienta')) {
+        if ($request->has('codigo_herramienta') && is_array($request->codigo_herramienta)) {
             foreach ($request->codigo_herramienta as $index => $codigoHerramienta) {
                 $herramienta = Herramienta::where('codigo', $codigoHerramienta)->first();
             if (!$herramienta) {
@@ -169,18 +172,17 @@ class PrestamoController extends Controller
 
     }
 
-    public function destroy($id)
-{
+    public function destroy($id){
 
-    $usuario = Usuario::where('id', $id)->first();
+    $prestamo = Prestamo::where('id', $id)->first();
 
-    if (!$usuario) {
+    if (!$prestamo) {
         return response()->json(['success' => false, 'message' => 'Usuario no encontrado'], 404);
     }
 
-    $prestamo = $usuario->prestamos()
-        ->where('estado_prestamo', 'activo')
-        ->first();
+    // $prestamo = $usuario->prestamos()
+    //     ->where('estado_prestamo', 'activo')
+    //     ->first();
 
     if (!$prestamo) {
         return response()->json(['success' => false, 'message' => 'No hay préstamos existentes'], 404);
@@ -207,7 +209,7 @@ class PrestamoController extends Controller
     Historial::updateOrCreate(
         ['prestamo_id' => $prestamo->id],
         [
-            'usuario_id' => $usuario->id,
+            'usuario_id' => $prestamo->id,
             'estado' => 'devuelto'
         ]
     );

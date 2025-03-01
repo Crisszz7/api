@@ -23,7 +23,7 @@ class Usuario extends Model
     }
 
     public function prestamos():HasMany{
-        return $this->hasMany(Prestamo::class);//un usuario puede tener varios prestamos 
+        return $this->hasMany(Prestamo::class, 'usuario_id');//un usuario puede tener varios prestamos 
     }
 
     public function historials():HasMany{
