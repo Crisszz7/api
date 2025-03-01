@@ -18,8 +18,8 @@ return new class extends Migration
             $table->unsignedInteger('cantidad'); 
             $table->timestamps();
 
-            $table->foreign('prestamo_id')->references('id')->on('prestamos')->onUpdate('cascade');
-            $table->foreign('herramienta_id')->references('id')->on('herramientas')->onUpdate('cascade');
+            $table->foreign('prestamo_id')->references('id')->on('prestamos')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('herramienta_id')->references('id')->on('herramientas')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

@@ -11,37 +11,10 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 
 class LoginSedeController extends Controller
-{
-
-    public function login(Request $request)
-    {
-        // Validar que los datos vengan en la petición
-        $request->validate([
-            'username' => 'required|string',
-            'contrasena' => 'required|string',
-        ]);
-    
-        $user = UsuarioSede::where('username', $request->username)->first();
-    
-        if (!$user || !Hash::check($request->contrasena, $user->contrasena)) {
-            return response()->json(['message' => 'Credenciales incorrectas.'], 401);
-        }
-    
-        $token = $user->createToken('auth_token')->plainTextToken;
-    
-        return response()->json([
-            'message' => 'Inicio de sesión exitoso.',
-            'token' => $token,
-            'user' => [
-                'id' => $user->id,
-                'username' => $user->username,
-                'sede' => $user->sede->nombre_sede ?? null,
-            ],
-        ], 200);
+{   
+    public function index(){
+        return response()->json(UsuarioSede::with(['sede'])->get());
     }
-    
-
-    
 
     public function register(Request $request)
     {
@@ -90,23 +63,24 @@ class LoginSedeController extends Controller
                 ], 404);
             }
 
-        $sedeUsuarioActualizar = UsuarioSede::with(['sede'])->where('sede_id', $sede->id)->first();
+        $sedeUsuario = UsuarioSede::with(['sede'])->where('sede_id', $sede->id)->first();
 
-            return response()->json($sedeUsuarioActualizar, 200);
+            return response()->json($sedeUsuario, 200);
         }
 
-    public function update(Request $request, $numero_sede):JsonResponse{
+    public function update(Request $request, $id):JsonResponse
+    {
+        $usuario = Auth::user();
+        $usuarioSede = UsuarioSede::where('id', $id)->first();
 
-        $sede = Sede::where('numero_sede', $numero_sede)->first();
-
-        if (!$sede) {
+        if (!$usuarioSede) {
             return response()->json([
-                'message' => 'Sede no encontrada',
-                'data' => $sede,
+                'message' => 'Hay un error en los datos, verificalos',
+                'data' => $usuarioSede,
             ], 400);
         }
 
-        $sedeUsuarioActualizar = UsuarioSede::where('sede_id', $sede->id)->first();
+        ($sedeUsuarioActualizar = UsuarioSede::where('sede_id', $usuarioSede->sede_id)->first());
 
         $sedeUsuarioActualizar->username = $request->input('username', $sedeUsuarioActualizar->username);
         $sedeUsuarioActualizar->correo = $request->input('correo', $sedeUsuarioActualizar->correo);
@@ -121,19 +95,20 @@ class LoginSedeController extends Controller
 
     }
 
-    public function destroy($numero_sede):JsonResponse
+    public function destroy($id):JsonResponse
     {
 
-        $sede = Sede::where('numero_sede', $numero_sede)->first();
+        $usuario = Auth::user();
+        $usuarioSede = UsuarioSede::where('id', $id)->first();
 
-        if (!$sede) {
+        if (!$usuarioSede) {
             return response()->json([
                 'message' => 'Sede no encontrada',
-                'data' => $sede,
+                'data' => $usuarioSede,
             ], 400);
         }
 
-        $sedeUsuarioEliminar = UsuarioSede::where('sede_id', $sede->id)->first();
+        $sedeUsuarioEliminar = UsuarioSede::where('sede_id', $usuarioSede->sede_id)->first();
 
         $sedeUsuarioEliminar->delete();
 
@@ -141,6 +116,33 @@ class LoginSedeController extends Controller
             'message' => 'Usuario de Sede eliminado exitosamente.',
         ], 200);
     }
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'username' => 'required|string',
+            'contrasena' => 'required|string',
+        ]);
+    
+        $user = UsuarioSede::where('username', $request->username)->first();
+    
+        if (!$user || !Hash::check($request->contrasena, $user->contrasena)) {
+            return response()->json(['message' => 'Credenciales incorrectas.'], 401);
+        }
+    
+        $token = $user->createToken('auth_token')->plainTextToken;
+    
+        return response()->json([
+            'message' => 'Inicio de sesión exitoso.',
+            'token' => $token,
+            'user' => [
+                'id' => $user->id,
+                'username' => $user->username,
+                'sede' => $user->sede->nombre_sede ?? null,
+            ],
+        ], 200);
+    }
+    
 
     public function logout(Request $request)
     {

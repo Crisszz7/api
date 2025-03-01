@@ -6,13 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Models\Historial;
 use App\Models\Usuario;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HistorialController extends Controller
 {
     public function index()
     {
-        $historiales = Historial::with(['usuario', 'prestamo'])->get();
+        $usuario = Auth::user();
+
+        if (!$usuario) {
+            return response()->json(['error' => 'Usuario no autenticado'], 401);
+        }
+
+        $historiales = Historial::with(['usuario', 'prestamo'])
+        ->where('usuariosede_id', $usuario->id)
+        ->get();
 
         return response()->json([
             'success' => true,
