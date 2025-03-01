@@ -172,21 +172,26 @@ class PrestamoController extends Controller
 
     }
 
-    public function destroy($id){
-
+    public function destroy($id)
+{
     $prestamo = Prestamo::where('id', $id)->first();
 
     if (!$prestamo) {
+        return response()->json(['success' => false, 'message' => 'Préstamo no encontrado'], 404);
+    }
+
+    $usuario = Usuario::find($prestamo->usuario_id);
+
+    if (!$usuario) {
         return response()->json(['success' => false, 'message' => 'Usuario no encontrado'], 404);
     }
 
-    // $prestamo = $usuario->prestamos()
-    //     ->where('estado_prestamo', 'activo')
-    //     ->first();
+    $prestamo = $usuario->prestamos()->where('estado_prestamo', 'activo')->first();
 
     if (!$prestamo) {
-        return response()->json(['success' => false, 'message' => 'No hay préstamos existentes'], 404);
+        return response()->json(['success' => false, 'message' => 'No hay préstamos activos'], 404);
     }
+
 
     if ($prestamo->ambiente_id) {
         $ambiente = Ambiente::find($prestamo->ambiente_id);
@@ -196,8 +201,7 @@ class PrestamoController extends Controller
         }
     }
 
-    $herramientas = $prestamo->herramientas;
-    foreach ($herramientas as $herramienta) {
+    foreach ($prestamo->herramientas as $herramienta) {
         $cantidad_prestada = $herramienta->pivot->cantidad ?? 0;
         $herramienta->stock += $cantidad_prestada;
         $herramienta->save();
@@ -209,7 +213,7 @@ class PrestamoController extends Controller
     Historial::updateOrCreate(
         ['prestamo_id' => $prestamo->id],
         [
-            'usuario_id' => $prestamo->id,
+            'usuario_id' => $prestamo->usuario_id,
             'estado' => 'devuelto'
         ]
     );
@@ -220,5 +224,6 @@ class PrestamoController extends Controller
         'data' => $prestamo
     ], 200);
 }
+
 
 }
