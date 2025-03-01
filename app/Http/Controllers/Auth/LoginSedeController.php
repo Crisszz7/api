@@ -16,6 +16,32 @@ class LoginSedeController extends Controller
         return response()->json(UsuarioSede::with(['sede'])->get());
     }
 
+    public function login(Request $request) {
+        $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+    
+        $user = UsuarioSede::where('username', $request->username)->first();
+    
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json(['message' => 'Credenciales incorrectas.'], 401);
+        }
+    
+        $token = $user->createToken('auth_token')->plainTextToken;
+    
+        return response()->json([
+            'message' => 'Inicio de sesión exitoso.',
+            'token' => $token,
+            'user' => [
+                'id' => $user->id,
+                'username' => $user->username,
+                'sede' => $user->sede->nombre_sede ?? null,
+            ],
+        ], 200);
+    }
+    
+
     public function register(Request $request)
     {
 
@@ -46,7 +72,7 @@ class LoginSedeController extends Controller
             'user' => [
                 'id' => $user->id,
                 'username' => $user->username,
-                'emial' => $request->email,
+                'email' => $request->email,
                 'sede' => $user->sede->nombre_sede, 
             ],
         ], 201);
@@ -117,32 +143,7 @@ class LoginSedeController extends Controller
         ], 200);
     }
 
-    public function login(Request $request)
-    {
-        $request->validate([
-            'username' => 'required|string',
-            'contrasena' => 'required|string',
-        ]);
-    
-        $user = UsuarioSede::where('username', $request->username)->first();
-    
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json(['message' => 'Credenciales incorrectas.'], 401);
-        }
-    
-        $token = $user->createToken('auth_token')->plainTextToken;
-    
-        return response()->json([
-            'message' => 'Inicio de sesión exitoso.',
-            'token' => $token,
-            'user' => [
-                'id' => $user->id,
-                'username' => $user->username,
-                'sede' => $user->sede->nombre_sede ?? null,
-            ],
-        ], 200);
-    }
-    
+
 
     public function logout(Request $request)
     {

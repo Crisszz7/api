@@ -7,6 +7,7 @@ use App\Models\UsuarioSede;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
+use App\Notifications\ResetPasswordNotification;
 
 class ForgotPasswordController extends Controller
 {
@@ -15,7 +16,7 @@ class ForgotPasswordController extends Controller
 
         // dd($request->email);
 
-        $correoUsuario = UsuarioSede::where('email', $request->email);
+        $correoUsuario = UsuarioSede::where('email', $request->email)->first();
 
         if (!$correoUsuario) {
             return  response()->json(['message' => 'No se encontro el correo, verificalo por favor']);

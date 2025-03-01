@@ -13,8 +13,8 @@
         @method('POST')
         <input type="hidden" name="token" value="{{ request()->token }}"> 
 
-        <p>Correo Electrónico:</p>
-        <input type="email" name="email" placeholder="Ingrese su correo" required>
+        <p>Correo Electrónico: </p>
+        <span> {{ $email }}</span>
         
         <label for="password">Nueva Contraseña:</label>
         <input type="password" name="password" placeholder="Nueva contraseña" required>

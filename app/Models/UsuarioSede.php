@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Sanctum\HasApiTokens;
@@ -11,7 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
 
-class UsuarioSede extends Authenticatable implements CanResetPassword
+class UsuarioSede extends Authenticatable 
 {
     use HasFactory, HasApiTokens, Notifiable; 
 
@@ -19,16 +18,17 @@ class UsuarioSede extends Authenticatable implements CanResetPassword
 
     protected $fillable = [
         'username',
-        'correo',
-        'contrasena',
+        'email',
+        'password',
         'sede_id',
 
     ];
 
     protected $hidden = [
-        'contrasena', 
+        'password', 
         'remember_token',
     ];    
+
 
     public function sede()
     {

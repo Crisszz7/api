@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('usuario_sedes', function (Blueprint $table) {
             $table->id();
             $table->string('username')->unique();
-            $table->string('contrasena');
-            $table->string('correo')->nullable();
+            $table->string('password');
+            $table->string('email')->nullable();
             $table->unsignedBigInteger('sede_id');
             $table->timestamps();
 

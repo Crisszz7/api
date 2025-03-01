@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginSedeController;
-use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\FichaController;
@@ -14,7 +13,6 @@ use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
 
-
 Route::post('/login-sede', [LoginSedeController::class, 'login']);
 
 Route::post('/register-sede', [LoginSedeController::class, 'register']);
@@ -23,7 +21,6 @@ Route::get('/usuariosede',[LoginSedeController::class, 'index']);
 Route::get('/show-sede/{numero_sede}', [LoginSedeController::class, 'show']);
 
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-Route::post('/reset-password', [ResetPasswordController::class, 'reset']);
 
 Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');

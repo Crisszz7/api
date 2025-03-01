@@ -44,8 +44,10 @@ class ResetPasswordController extends Controller
             'email' => [trans($status)],
         ]);
     }
-
-    public function showResetForm(){
-        return view('mails.messageReceived');
+    public function showResetForm($token, Request $request) {
+        return view('mails.messageReceived', [
+            'token' => $token,
+            'email' => $request->query('email') ?? 'Sin email',
+        ]);
     }
 }
