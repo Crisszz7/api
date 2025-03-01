@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\UsuarioSede;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class ResetPasswordController extends Controller
@@ -19,21 +20,24 @@ class ResetPasswordController extends Controller
             'password' => 'required|min:8|confirmed',
         ]);
 
+
         $status = Password::broker('usuarios_sedes')->reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
+            $request->only('email', 'password', 'token'), 
             function ($user, $password) {
                 $user->forceFill([
-                    'password' => Hash::make($password)
-                ])->setRememberToken(Str::random(60));
+                    'password' => Hash::make($password), 
+                ])->save();
     
-                $user->save();
+                event(new PasswordReset($user)); // Dispara el evento de restablecimiento de contraseña
     
-                event(new PasswordReset($user));
             }
         );
     
         if ($status === Password::PASSWORD_RESET) {
-            return response()->json(['message' => 'Password has been reset']);
+            return response()->json([
+                'message' => 'La contraseña fue reestablecida',
+                'login' => '/login-sede',
+            ], 200);
         }
     
         throw ValidationException::withMessages([
@@ -42,6 +46,6 @@ class ResetPasswordController extends Controller
     }
 
     public function showResetForm(){
-        return view('welcome');
+        return view('mails.messageReceived');
     }
 }

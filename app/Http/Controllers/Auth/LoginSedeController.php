@@ -21,7 +21,7 @@ class LoginSedeController extends Controller
 
         $request->validate([
             'username' => 'required|string|unique:usuario_sedes,username', 
-            'contrasena' => 'required|string',
+            'password' => 'required|string',
             'numero_sede' => 'required|exists:sedes,numero_sede', 
         ]);
 
@@ -36,8 +36,8 @@ class LoginSedeController extends Controller
 
         $user = UsuarioSede::create([
             'username' => $request->username,
-            'contrasena' => Hash::make($request->contrasena), 
-            'correo' => $request->correo,
+            'password' => Hash::make($request->password), 
+            'email' => $request->email,
             'sede_id' => $sede->id, 
         ]);
 
@@ -46,7 +46,7 @@ class LoginSedeController extends Controller
             'user' => [
                 'id' => $user->id,
                 'username' => $user->username,
-                'correo' => $request->correo,
+                'emial' => $request->email,
                 'sede' => $user->sede->nombre_sede, 
             ],
         ], 201);
@@ -83,8 +83,8 @@ class LoginSedeController extends Controller
         ($sedeUsuarioActualizar = UsuarioSede::where('sede_id', $usuarioSede->sede_id)->first());
 
         $sedeUsuarioActualizar->username = $request->input('username', $sedeUsuarioActualizar->username);
-        $sedeUsuarioActualizar->correo = $request->input('correo', $sedeUsuarioActualizar->correo);
-        $sedeUsuarioActualizar->contrasena = Hash::make($request->input('contrasena', $sedeUsuarioActualizar->contrasena));
+        $sedeUsuarioActualizar->email = $request->input('email', $sedeUsuarioActualizar->email);
+        $sedeUsuarioActualizar->password = Hash::make($request->input('password', $sedeUsuarioActualizar->password));
         $sedeUsuarioActualizar->save();
 
         return response()->json([
@@ -126,7 +126,7 @@ class LoginSedeController extends Controller
     
         $user = UsuarioSede::where('username', $request->username)->first();
     
-        if (!$user || !Hash::check($request->contrasena, $user->contrasena)) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'Credenciales incorrectas.'], 401);
         }
     

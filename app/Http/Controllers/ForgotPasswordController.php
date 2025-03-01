@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\UsuarioSede;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
@@ -12,10 +13,14 @@ class ForgotPasswordController extends Controller
     public function sendResetLinkEmail(Request $request){
         $request->validate(['email' => 'required|email']);
 
-        // En Laravel, el broker de contraseñas define qué modelo de usuario se usará para recuperar contraseñas
-
         // dd($request->email);
 
+        $correoUsuario = UsuarioSede::where('email', $request->email);
+
+        if (!$correoUsuario) {
+            return  response()->json(['message' => 'No se encontro el correo, verificalo por favor']);
+        }
+        // En Laravel, el broker de contraseñas define qué modelo de usuario se usará para recuperar contraseñas
         $estado = Password::broker('usuarios_sedes')->sendResetLink(['email' => $request->email]);
 
         if($estado === Password::RESET_LINK_SENT){
