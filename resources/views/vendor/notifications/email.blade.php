@@ -1,9 +1,13 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Restablecimiento de Contraseña</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Holaaaaaaaa</title>
 </head>
-<body>
+{{-- <body>
     <h2>Hola,</h2>
     <p>Recibimos una solicitud para restablecer tu contraseña. Si no fuiste tú, ignora este mensaje.</p>
     <p>Para cambiar tu contraseña, haz clic en el siguiente botón:</p>
@@ -16,5 +20,6 @@
     <br>
     <p>Saludos,<br><strong>{{ config('app.name') }}</strong></p>
     <b> {{ $actionUrl}}</b>
+    --}}
 </body>
 </html>
