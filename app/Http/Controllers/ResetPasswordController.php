@@ -36,7 +36,6 @@ class ResetPasswordController extends Controller
         if ($status === Password::PASSWORD_RESET) {
             return response()->json([
                 'message' => 'La contraseña fue reestablecida',
-                'login' => url('/api/login-sede'),
             ], 200);
         }
     
@@ -47,7 +46,7 @@ class ResetPasswordController extends Controller
     public function showResetForm($token, Request $request) {
         return view('mails.messageReceived', [
             'token' => $token,
-            'email' => $request->query('email') ?? 'Sin email',
+            'email' => $request->query('email'),
         ]);
     }
 }

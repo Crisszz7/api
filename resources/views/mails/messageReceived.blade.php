@@ -4,17 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Restablecer Contraseña</title>
+    <style>
+        input{
+            background-color: red;
+        }
+        </style>
+    <title>Restablecimiento de Contraseña</title>
 </head>
 <body>
-    <h2>Restablecer Contraseña</h2>
+    <h2>Restablecimiento de Contraseña</h2>
     <form action="{{ route('password.update') }}" method="POST">
         @csrf 
         @method('POST')
         <input type="hidden" name="token" value="{{ request()->token }}"> 
 
-        <p>Correo Electrónico: </p>
-        <span> {{ $email }}</span>
+        <input type="email" name="email" value="{{ request()->email}}">
         
         <label for="password">Nueva Contraseña:</label>
         <input type="password" name="password" placeholder="Nueva contraseña" required>

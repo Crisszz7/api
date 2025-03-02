@@ -7,7 +7,6 @@ use App\Models\UsuarioSede;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
-use App\Notifications\ResetPasswordNotification;
 
 class ForgotPasswordController extends Controller
 {
