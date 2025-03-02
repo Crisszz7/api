@@ -71,8 +71,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/historial/{id}', [HistorialController::class, 'show']);
 
     //Rutas protegidas UsuarioSedes
-    Route::put('/edit-sede/{id}', [LoginSedeController::class, 'update']);
-    Route::delete('delete-sede/{id}', [LoginSedeController::class, 'destroy']);
+    Route::put('/usuariosede/{id}', [LoginSedeController::class, 'update']);
+    Route::delete('/usuariosede/{id}', [LoginSedeController::class, 'destroy']);
     // Logout (cerrar sesión)
     Route::post('/logout', [LoginSedeController::class, 'logout']);
 });
