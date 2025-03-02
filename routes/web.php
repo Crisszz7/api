@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/formReset',  function(){
+    return view('mails.messageReceived');
+});
+
 Route::get('/email', function () {
     return view('vendor.notifications.email');
 });

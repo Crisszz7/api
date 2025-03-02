@@ -23,7 +23,7 @@ class PrestamoController extends Controller
             return response()->json(['error' => 'Usuario no autenticado'], 401);
         }
     
-        $prestamos = Prestamo::where('usuariosede_id', $usuario->id)
+        $prestamos = Prestamo::with(['herramientas', 'usuario'])->where('usuariosede_id', $usuario->id)
         ->where('estado_prestamo', 'activo')
         ->get();
        

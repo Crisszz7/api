@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <style>
-        input{
-            background-color: red;
-        }
-        </style>
+    <link rel="stylesheet" href=" {{ asset('assets/css/resetPassword.css')}}">
     <title>Restablecimiento de Contraseña</title>
 </head>
 <body>
