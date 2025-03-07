@@ -12,15 +12,16 @@
         }
 
         body{
-            background-color: rgb(239, 239, 239);
+            background-color: rgb(255, 255, 255);
         }
 
         h2{
             background-color: rgba(188, 255, 179, 0.508);
             padding: 10px 3px;
             border-radius: 5px;
-            margin: 5px 5px;
+            margin: 15px 5px;
             color:rgb(36, 98, 36);
+            text-align: center
         }
 
         .box-container{

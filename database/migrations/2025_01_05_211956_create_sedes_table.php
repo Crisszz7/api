@@ -13,6 +13,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre_sede');
             $table->unsignedBigInteger('numero_sede');
+            $table->boolean('estado')->default(false);
         });
     }
 

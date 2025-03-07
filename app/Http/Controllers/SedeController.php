@@ -17,10 +17,16 @@ class SedeController extends Controller
 
     public function store(Request $request):JsonResponse
     {
+        $validarExistencia = Sede::where('numero_sede', $request->numero_sede)->first();
+
+        if ($validarExistencia) {
+            return response()->json(['message' => 'Ya existe una sede con sede con ese numero']);
+        }
+
         $sede = Sede::create($request->all());
 
         return response()->json([
-            'Success' => true,
+            'success' => true,
             'message' => 'Sede creada exitosamente',
             'data' => $sede
         ], 201);
@@ -32,7 +38,7 @@ class SedeController extends Controller
 
         if (!$sede) {
             return response()->json([
-                'Success' => false,
+                'success' => false,
                 'message' => 'Sede No encontrada'
                 ], 404);
             }
@@ -46,13 +52,14 @@ class SedeController extends Controller
 
         if (!$sede) {
             return response()->json([
-                'Success' => false,
+                'success' => false,
                 'message' => 'Sede NO encontrada'
             ], 404);
         }
 
         $sede->nombre_sede = $request->input('nombre_sede', $sede->nombre_sede);
         $sede->numero_sede = $request->input('numero_sede', $sede->numero_sede);
+        $sede->estado = $request->input('estado', $sede->estado);
         $sede->save();
 
         return response()->json([
