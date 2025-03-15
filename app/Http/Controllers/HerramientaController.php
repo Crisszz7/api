@@ -33,15 +33,6 @@ class HerramientaController extends Controller
 
         $usuariosede_id = $usuario->id;
 
-        $validarExistencia = Herramienta::where('codigo', $request->codigo)->where('usuariosede_id', $usuario->id)->exists();
-
-        if ($validarExistencia) {
-            return response()->json([
-                'data' => $validarExistencia,
-                'message' => 'La ficha ya existe'
-            ], 404);
-        }
-
         $herramientaData = $request->all();
         $herramientaData['usuariosede_id'] = $usuariosede_id;
     
@@ -55,7 +46,6 @@ class HerramientaController extends Controller
 
     public function show(string $codigo):JsonResponse
     {
-
         $herramienta = Herramienta::where('codigo', $codigo)->first();
 
         if (!$herramienta) {
@@ -67,7 +57,6 @@ class HerramientaController extends Controller
 
     public function update(Request $request, $id):JsonResponse
     {
-
         $herramienta = Herramienta::where('id', $id)->first();
 
         if (!$herramienta) {
@@ -81,6 +70,7 @@ class HerramientaController extends Controller
         $herramienta->codigo = $request->input('codigo', $herramienta->codigo);
         $herramienta->stock = $request->input('stock', $herramienta->stock);
         $herramienta->ubicacion = $request->input('ubicacion', $herramienta->ubicacion);
+        $herramienta->estado_herramienta = $request->input('estado_prestamo', $herramienta->estado_herramienta);
         $herramienta->save();
 
         return response()->json([

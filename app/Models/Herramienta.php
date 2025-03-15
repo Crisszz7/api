@@ -11,7 +11,7 @@ class Herramienta extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre_herramienta', 'codigo', 'stock', 'ubicacion', 'usuariosede_id'];
+    protected $fillable = ['nombre_herramienta', 'codigo', 'stock', 'ubicacion', 'estado_herramienta' , 'detalle_herramienta', 'usuariosede_id'];
 
     
     public function prestamos():BelongsToMany

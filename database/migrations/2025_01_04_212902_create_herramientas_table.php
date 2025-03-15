@@ -14,9 +14,10 @@ return new class extends Migration
             $table->string('codigo');
             $table->unsignedInteger('stock')->default(0);
             $table->string('ubicacion');
+            $table->enum('estado_herramienta', ['Bueno', 'Regular', 'Malo'])->default('Bueno');
+            $table->text('detalle_herramienta')->nullable();
             $table->unsignedBigInteger('usuariosede_id');
             $table->timestamps();
-
             $table->foreign('usuariosede_id')->references('id')->on('usuario_sedes')->onUpdate('cascade')->onDelete('cascade');
         });
     }
